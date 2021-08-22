@@ -28,7 +28,7 @@
     to avoid connecting the SDK to running emulators.
   -->
   <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-  <script src="./assets/js/firebase-init.js"></script>
+  
 
   <!-- Custom fonts for this template-->
   <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="getCurrentUser()">
   <!-- Page Wrapper -->
   <div id="wrapper">
     <!-- Sidebar -->
@@ -157,7 +157,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Dishes</h6>
             <a class="collapse-item" href="dishes.html">Dishes</a>
-            <a class="collapse-item" href="dishes-create.html">Add New</a>
+            <a class="collapse-item" href="dish-create.html">Add New</a>
           </div>
         </div>
       </li>
@@ -567,7 +567,7 @@
           <button class="btn btn-secondary" type="button" data-dismiss="modal">
             Cancel
           </button>
-          <a class="btn btn-primary" href="login.html" onclick="onLogout()">Logout</a>
+          <a class="btn btn-primary" href="#" onclick="onLogout()">Logout</a>
         </div>
       </div>
     </div>

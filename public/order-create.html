@@ -28,8 +28,6 @@
     to avoid connecting the SDK to running emulators.
   -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-    <script src="./assets/js/firebase-init.js"></script>
-
     <!-- Custom fonts for this template-->
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
     <link
@@ -42,7 +40,7 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="getCurrentUser()">
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -158,7 +156,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Dishes</h6>
                         <a class="collapse-item" href="dishes.html">Dishes</a>
-                        <a class="collapse-item" href="dishes-create.html">Add New</a>
+                        <a class="collapse-item" href="dish-create.html">Add New</a>
                     </div>
                 </div>
             </li>

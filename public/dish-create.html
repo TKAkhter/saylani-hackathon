@@ -28,8 +28,6 @@
     to avoid connecting the SDK to running emulators.
   -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-    <script src="./assets/js/firebase-init.js"></script>
-
     <!-- Custom fonts for this template-->
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
     <link
@@ -42,7 +40,7 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="getCurrentUser()">
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -158,7 +156,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Dishes</h6>
                         <a class="collapse-item" href="dishes.html">Dishes</a>
-                        <a class="collapse-item" href="dishes-create.html">Add New</a>
+                        <a class="collapse-item" href="dish-create.html">Add New</a>
                     </div>
                 </div>
             </li>
@@ -447,18 +445,48 @@
                                 <h6 class="m-0 font-weight-bold text-primary">Orders</h6>
                             </div>
                             <div class="card-body">
+                                <div id="alert-response" class="alert" role="alert">
+                                </div>
                                 <form class="user" onsubmit="return false">
                                     <div class="form-group">
-                                        <label for="email">Email address</label>
-                                        <input type="email" class="form-control form-control-user" id="email"
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control form-control-user" id="name"
                                             aria-describedby="emailHelp" placeholder="Enter Email Address...">
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" class="form-control form-control-user" id="password"
-                                            placeholder="password">
+                                        <label for="price">Price</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Rs.</div>
+                                            </div>
+                                            <input type="text" class="form-control" id="price" placeholder="Username">
+                                        </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary" onClick="onLogin()">Login</button>
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <select class="form-control form-control-user" id="category"
+                                            aria-describedby="emailHelp" multiple>
+                                            <option selected>...</option>
+                                            <option value="Chinese">Chinese</option>
+                                            <option value="Continental">Continental</option>
+                                            <option value="Pakistani">Pakistani</option>
+                                            <option value="South Indian">South Indian</option>
+                                            <option value="Fast Food">Fast Food</option>
+                                            <option value="Desert">Desert</option>
+                                            <option value="Desert">Sea Food</option>
+                                            <option value="Desert">Salad</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="delivery_type">Delivery Type</label>
+                                        <select class="form-control form-control-user" id="delivery_type"
+                                        aria-describedby="emailHelp" >
+                                            <option selected>...</option>
+                                            <option value="Free">Free</option>
+                                            <option value="Paid">Paid</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" onClick="orderCreate()">Login</button>
                                     <hr>
                                 </form>
                             </div>

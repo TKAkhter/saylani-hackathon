@@ -28,8 +28,6 @@
           to avoid connecting the SDK to running emulators.
         -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-    <script src="./assets/js/firebase-init.js"></script>
-
     <!-- Custom fonts for this template-->
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
     <link
@@ -41,7 +39,7 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="getCurrentUser()">
 
     <!-- Page Wrapper -->
     <div id="wrapper">

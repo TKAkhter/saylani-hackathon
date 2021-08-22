@@ -5,7 +5,7 @@ if (email) {
   document.getElementById("email").value = email;
 }
 
-let onLogin = () => {
+const onLogin = () => {
   let email = document.getElementById("email");
   let password = document.getElementById("password");
 
@@ -27,15 +27,16 @@ let onLogin = () => {
       $("button[type=submit]").addClass("disabled");
       // See the UserRecord reference doc for the contents of userRecord.
       console.log("Login Successfully:", res.user.email);
+      localStorage.setItem("user", JSON.stringify({ email: email.value }));
       setTimeout(function () {
-        location.href = `index.html`;
+        location.replace(`index.html`);
       }, 5000);
     })
     .catch((err) => {
       console.log("err=>", err);
       $("#alert-response")
         .addClass("alert-danger")
-        .append(`Successfully created new user: ${err.message}`)
+        .append(err.message)
         .css("display", "block");
       $("button[type=submit]").addClass("disabled");
     });
@@ -44,8 +45,13 @@ let onLogin = () => {
     $("button[type=submit]").removeClass("disabled");
   }, 5000);
 };
+
 const onSignup = () => {
+  let as_restaurant = document.getElementById("as_restaurant");
+  let name = document.getElementById("name");
   let email = document.getElementById("email");
+  let country = document.getElementById("country");
+  let city = document.getElementById("city");
   let password = document.getElementById("password");
 
   firebase
@@ -53,7 +59,11 @@ const onSignup = () => {
     .createUserWithEmailAndPassword(email.value, password.value)
     .then((res) => {
       let user = {
+        as_restaurant: as_restaurant.checked,
+        name: name.value,
         email: email.value,
+        country: country.value,
+        city: city.value,
         password: password.value,
       };
 
@@ -67,14 +77,14 @@ const onSignup = () => {
       // See the UserRecord reference doc for the contents of userRecord.
       console.log("Successfully created new user:", res.user.email);
       setTimeout(function () {
-        location.href = `login.html?email=${res.user.email}`;
+        location.replace(`login.html?email=${res.user.email}`);
       }, 5000);
     })
     .catch((err) => {
-      console.log(`Successfully created new user: ${err.message}`);
+      console.log(err.message);
       $("#alert-response")
         .addClass("alert-danger")
-        .append(`Successfully created new user: ${err.message}`)
+        .append(err.message)
         .css("display", "block");
       $("button[type=submit]").addClass("disabled");
     });
@@ -85,24 +95,50 @@ const onSignup = () => {
   }, 5000);
 };
 
+const getOrders = () => {
+  getCurrentUser();
+  $(".dataTables_empty").remove();
+  firebase
+    .database()
+    .ref("orders")
+    .on("value", (snapshot) => {
+      if (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          let childData = childSnapshot.val();
+          let data = "<tr>";
+          for (const property in childData) {
+            data = data + `<td>${childData[property]}</td>`;
+          }
+          data = data + "</tr>";
+          $(".dataTableOrder").append(data);
+        });
+      }
+    });
+};
+
 const orderCreate = () => {
   let name = document.getElementById("name");
   let price = document.getElementById("price");
-  let category = document.getElementById("category");
+  let categories = "";
+  for (let option of document.getElementById("category").options) {
+    if (option.selected) {
+      categories = categories + option.value + ",";
+    }
+  }
+  categories.slice(0, -1);
   let delivery_type = document.getElementById("delivery_type");
 
-  // Add a new document in collection "cities"
+  // Add a new document in collection "orders"
   firebase
     .database()
-    .ref("orders/" + userId)
-    .set({
+    .ref("orders")
+    .push({
       name: name.value,
       price: price.value,
-      category: category.value,
+      category: categories,
       delivery_type: delivery_type.value,
     })
     .then(() => {
-      console.log("Document successfully written!");
       $("#alert-response")
         .removeClass("alert-danger")
         .addClass("alert-success")
@@ -112,7 +148,7 @@ const orderCreate = () => {
       // See the UserRecord reference doc for the contents of userRecord.
       console.log("Order Created Successfully");
       setTimeout(function () {
-        location.href = `orders.html`;
+        location.replace(`orders.html`);
       }, 5000);
     })
     .catch((err) => {
@@ -129,53 +165,27 @@ const orderCreate = () => {
   }, 5000);
 };
 
-// const onLogin = () => {
-//   // get data from MongoDB
-//   // get input values
-//   const obj = {
-//     username: $("#username").val(),
-//     email: $("#email").val(),
-//   };
-//   // Make a request for a user with a given ID
-//   // post(url,body,headers)
-//   axios
-//     .post(`${BASE_URL}/login`, obj)
-//     .then((response) => {
-//       const userData = {
-//         username: response.data.username,
-//         email: response.data.email,
-//       };
-//       console.log(response);
-//       if (userData) {
-//         $("#alert-response")
-//           .removeClass("alert-danger")
-//           .addClass("alert-success")
-//           .append("Login Successful")
-//           .css("display", "block");
-//         localStorage.setItem("user", JSON.stringify(userData));
-//         setTimeout(function () {
-//           location.href = "index.html";
-//         }, 5000);
-//       } else {
-//         $("#alert-response")
-//           .removeClass("alert-success")
-//           .addClass("alert-danger")
-//           .append(response.data)
-//           .css("display", "block");
-//       }
-//     })
-//     .catch((error) => {
-//       $("#alert-response")
-//         .addClass("alert-danger")
-//         .append(error)
-//         .css("display", "block");
-//       console.log(error);
-//     });
-//   setTimeout(function () {
-//     $("#alert-response").css("display", "none").text("");
-//   }, 5000);
-// };
+const getDishes = () => {};
 
+const dishCreate = () => {};
+
+const getCurrentUser = () => {
+  // function getCurrentUser() {
+  let currentUrl = window.location.pathname;
+
+  var detail = document.getElementById("detail");
+  if (JSON.parse(localStorage.getItem("user"))) {
+    var user = JSON.parse(localStorage.getItem("user"));
+    detail.innerHTML = "Logged as " + user.email.split("@")[0];
+  } else {
+    location.replace("login.html");
+  }
+};
+
+const onLogout = () => {
+  localStorage.removeItem("user");
+  location.replace("login.html");
+};
 // const onLogout = () => {
 //   // function onLogout() {
 //   var message = document.getElementById("message");
@@ -183,19 +193,8 @@ const orderCreate = () => {
 //   message.innerHTML = "Good Bye.!";
 //   // clear state
 //   setTimeout(() => {
-//     location.href = "login.html";
+//     location.replace("login.html");
 //   }, 2000);
-// };
-
-// const getCurrentUser = () => {
-//   // function getCurrentUser() {
-//   var detail = document.getElementById("detail");
-//   if (JSON.parse(localStorage.getItem("user"))) {
-//     var user = JSON.parse(localStorage.getItem("user"));
-//     detail.innerHTML = "Loggedin as " + user.email.split("@")[0];
-//   } else {
-//     location.href = "login.html";
-//   }
 // };
 
 // const createPost = () => {
