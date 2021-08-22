@@ -2,13 +2,106 @@
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>NodeJS Todo List</title>
+  <title>Welcome to Saylani Hackathon</title>
+
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/8.10.0/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/8.10.0/firebase-auth.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-database.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-firestore.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-functions.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-storage.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-analytics.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-remote-config.js"></script>
+  <script defer src="/__/firebase/8.10.0/firebase-performance.js"></script>
+  <!-- 
+    initialize the SDK after all desired features are loaded, set useEmulator to false
+    to avoid connecting the SDK to running emulators.
+  -->
+  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+  <style media="screen">
+    body {
+      background: #ECEFF1;
+      color: rgba(0, 0, 0, 0.87);
+      font-family: Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #message {
+      background: white;
+      max-width: 360px;
+      margin: 100px auto 16px;
+      padding: 32px 24px;
+      border-radius: 3px;
+    }
+
+    #message h2 {
+      color: #ffa100;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 0 0 8px;
+    }
+
+    #message h1 {
+      font-size: 22px;
+      font-weight: 300;
+      color: rgba(0, 0, 0, 0.6);
+      margin: 0 0 16px;
+    }
+
+    #message p {
+      line-height: 140%;
+      margin: 16px 0 24px;
+      font-size: 14px;
+    }
+
+    #message a {
+      display: block;
+      text-align: center;
+      background: #039be5;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: white;
+      padding: 16px;
+      border-radius: 4px;
+    }
+
+    #message,
+    #message a {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    #load {
+      color: rgba(0, 0, 0, 0.4);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+
+      body,
+      #message {
+        margin-top: 0;
+        background: white;
+        box-shadow: none;
+      }
+
+      body {
+        border-top: 16px solid #ffa100;
+      }
+    }
+  </style>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
@@ -23,7 +116,7 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
-<body id="page-top" onload="getCurrentUser()">
+<body id="page-top">
   <!-- Page Wrapper -->
   <div id="wrapper">
     <!-- Sidebar -->
@@ -56,38 +149,68 @@
       <hr class="sidebar-divider" />
 
       <!-- Heading -->
-      <div class="sidebar-heading">Interface</div>
+      <div class="sidebar-heading">Sales</div>
 
-      <!-- Nav Item - Pages Collapse Menu -->
+      <!-- Nav Item - Orders Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-          aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ordersTotal" aria-expanded="true"
+          aria-controls="ordersTotal">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
+          <span>Orders</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="ordersTotal" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
+            <h6 class="collapse-header">Orders</h6>
+            <a class="collapse-item" href="orders.html">Orders</a>
+            <a class="collapse-item" href="orders-create.html">Add New</a>
           </div>
         </div>
       </li>
 
-      <!-- Nav Item - Utilities Collapse Menu -->
+      <!-- Nav Item - Orders Delivered Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-          aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Utilities</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ordersDelivered"
+          aria-expanded="true" aria-controls="ordersDelivered">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Delivered</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="ordersDelivered" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <h6 class="collapse-header">Delivered</h6>
+            <a class="collapse-item" href="delivered.html">Delivered</a>
+            <a class="collapse-item" href="orders-create.html">Add New</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Orders Pending Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ordersPending" aria-expanded="true"
+          aria-controls="ordersPending">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Pending</span>
+        </a>
+        <div id="ordersPending" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Pending</h6>
+            <a class="collapse-item" href="pending.html">Pending</a>
+            <a class="collapse-item" href="orders-create.html">Add New</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Orders Accepted Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Accepted" aria-expanded="true"
+          aria-controls="Accepted">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Accepted</span>
+        </a>
+        <div id="Accepted" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Accepted</h6>
+            <a class="collapse-item" href="accepted.html">Accepted</a>
+            <a class="collapse-item" href="orders-create.html">Add New</a>
           </div>
         </div>
       </li>
@@ -96,41 +219,45 @@
       <hr class="sidebar-divider" />
 
       <!-- Heading -->
-      <div class="sidebar-heading">Addons</div>
+      <div class="sidebar-heading">Manage</div>
 
-      <!-- Nav Item - Pages Collapse Menu -->
+      <!-- Nav Item - inventory Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-          aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#dishes" aria-expanded="true"
+          aria-controls="dishes">
+          <i class="fas fa-fw fa-wrench"></i>
+          <span>Dishes</span>
         </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="dishes" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
+            <h6 class="collapse-header">Dishes</h6>
+            <a class="collapse-item" href="dishes.html">Dishes</a>
+            <a class="collapse-item" href="dishes-create.html">Add New</a>
           </div>
         </div>
       </li>
 
-      <!-- Nav Item - Charts -->
+      <!-- Nav Item - inventory Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#customers" aria-expanded="true"
+          aria-controls="customers">
+          <i class="fas fa-fw fa-wrench"></i>
+          <span>Customers</span>
+        </a>
+        <div id="customers" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Customers</h6>
+            <a class="collapse-item" href="customers.html">Customers</a>
+            <a class="collapse-item" href="customer-create.html">Add New</a>
+          </div>
+        </div>
       </li>
 
-      <!-- Nav Item - Tables -->
+      <!-- Nav Item - Profile -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
+        <a class="nav-link" href="profile.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Profile</span></a>
       </li>
 
       <!-- Divider -->
@@ -281,7 +408,7 @@
                 <h6 class="dropdown-header">Message Center</h6>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="..." />
+                    <img class="rounded-circle" src="../assets/img/undraw_profile_1.svg" alt="..." />
                     <div class="status-indicator bg-success"></div>
                   </div>
                   <div class="font-weight-bold">
@@ -294,7 +421,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="..." />
+                    <img class="rounded-circle" src="../assets/img/undraw_profile_2.svg" alt="..." />
                     <div class="status-indicator"></div>
                   </div>
                   <div>
@@ -307,7 +434,7 @@
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="..." />
+                    <img class="rounded-circle" src="../assets/img/undraw_profile_3.svg" alt="..." />
                     <div class="status-indicator bg-warning"></div>
                   </div>
                   <div>
@@ -345,7 +472,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="detail">Talha Akhter</span>
-                <img class="img-profile rounded-circle" src="img/undraw_profile.svg" />
+                <img class="img-profile rounded-circle" src="../assets/img/undraw_profile.svg" />
               </a>
               <!-- Dropdown - User Information -->
               <div class="
@@ -444,6 +571,16 @@
       </footer>
       <!-- End of Footer -->
     </div>
+    <div id="message">
+      <h2>Welcome</h2>
+      <h1>Firebase Hosting Setup Complete</h1>
+      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something
+        extraordinary!</p>
+      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    </div>
+    <p id="load">Firebase SDK Loading&hellip;</p>
+
+
     <!-- End of Content Wrapper -->
   </div>
   <!-- End of Page Wrapper -->
@@ -478,16 +615,16 @@
   </div>
   <footer>
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="./assets/js/sb-admin-2.js"></script>
-    <script src="./assets/js/app.js"></script>
-    <script src="./assets/js/scripts.js"></script>
+    <script src="../assets/js/sb-admin-2.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/scripts.js"></script>
   </footer>
 </body>
 
