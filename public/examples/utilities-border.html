@@ -3,23 +3,42 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-    <title>SB Admin 2 - Border Utilities</title>
+    <title>Welcome to Saylani Hackathon</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/8.10.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/8.10.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-functions.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-storage.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-analytics.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-remote-config.js"></script>
+    <script defer src="/__/firebase/8.10.0/firebase-performance.js"></script>
+    <!-- 
+          initialize the SDK after all desired features are loaded, set useEmulator to false
+          to avoid connecting the SDK to running emulators.
+        -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="./assets/js/firebase-init.js"></script>
 
     <!-- Custom fonts for this template-->
-    <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+        rel="stylesheet" />
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link href="./assets/css/sb-admin-2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
 <body id="page-top">
@@ -267,8 +286,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="./assets/img/undraw_profile_1.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="./assets/img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -279,8 +297,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="./assets/img/undraw_profile_2.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="./assets/img/undraw_profile_2.svg" alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -291,8 +308,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="./assets/img/undraw_profile_3.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="./assets/img/undraw_profile_3.svg" alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -324,8 +340,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="./assets/img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="./assets/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -510,17 +525,19 @@
             </div>
         </div>
     </div>
+    <footer>
+        <!-- Bootstrap core JavaScript-->
+        <script src="./vendor/jquery/jquery.min.js"></script>
+        <script src="./vendor/bootstrap/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="./vendor/jquery/jquery.min.js"></script>
-    <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="./assets/js/sb-admin-2.min.js"></script>
-
+        <!-- Custom scripts for all pages-->
+        <script src="./assets/js/sb-admin-2.js"></script>
+        <script src="./assets/js/app.js"></script>
+        <script src="./assets/js/scripts.js"></script>
+    </footer>
 </body>
 
 </html>
