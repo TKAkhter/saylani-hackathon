@@ -18,6 +18,11 @@ const onLogin = () => {
         .ref(`users/${res.user.uid}`)
         .once("value", (data) => {
           console.log(data.val());
+          let role = data.val().as_restaurant ? 'restaurant': 'customer' ;
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ email: email, id: id, role: role })
+          );
         });
       $("#alert-response")
         .removeClass("alert-danger")
@@ -26,11 +31,14 @@ const onLogin = () => {
         .css("display", "block");
       $("button[type=submit]").addClass("disabled");
       // See the UserRecord reference doc for the contents of userRecord.
-      console.log("Login Successfully:", res.user.email);
-      localStorage.setItem("user", JSON.stringify({ email: email.value }));
-      setTimeout(function () {
-        location.replace(`index.html`);
-      }, 5000);
+      console.log(res);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email: email.value, id: res.user.uid })
+      );
+      // setTimeout(function () {
+      //   location.replace(`index.html`);
+      // }, 5000);
     })
     .catch((err) => {
       console.log("err=>", err);
@@ -65,6 +73,7 @@ const onSignup = () => {
         country: country.value,
         city: city.value,
         password: password.value,
+        id: res.user.uid,
       };
 
       firebase.database().ref(`users/${res.user.uid}`).set(user);
@@ -97,26 +106,32 @@ const onSignup = () => {
 
 const getOrders = () => {
   getCurrentUser();
+  let user = JSON.parse(localStorage.user);
+  const id = user.id;
   $(".dataTables_empty").remove();
   firebase
     .database()
-    .ref("orders")
+    .ref(`orders`)
     .on("value", (snapshot) => {
+      console.log(snapshot);
       if (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           let childData = childSnapshot.val();
+          console.log(childData);
           let data = "<tr>";
           for (const property in childData) {
             data = data + `<td>${childData[property]}</td>`;
           }
           data = data + "</tr>";
-          $(".dataTableOrder").append(data);
+          $("#dataTable").append(data);
         });
       }
     });
 };
 
 const orderCreate = () => {
+  let user = JSON.parse(localStorage.user);
+  const id = user.id;
   let name = document.getElementById("name");
   let price = document.getElementById("price");
   let categories = "";
@@ -127,6 +142,7 @@ const orderCreate = () => {
   }
   categories.slice(0, -1);
   let delivery_type = document.getElementById("delivery_type");
+  let status = document.getElementById("status");
 
   // Add a new document in collection "orders"
   firebase
@@ -137,6 +153,8 @@ const orderCreate = () => {
       price: price.value,
       category: categories,
       delivery_type: delivery_type.value,
+      status: status.value,
+      id: id,
     })
     .then(() => {
       $("#alert-response")
@@ -165,9 +183,75 @@ const orderCreate = () => {
   }, 5000);
 };
 
-const getDishes = () => {};
+const getDishes = () => {
+  getCurrentUser();
+  $(".dataTables_empty").remove();
+  firebase
+    .database()
+    .ref("dishes")
+    .on("value", (snapshot) => {
+      if (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          let childData = childSnapshot.val();
+          let data = "<tr>";
+          for (const property in childData) {
+            data = data + `<td>${childData[property]}</td>`;
+          }
+          data = data + "</tr>";
+          $("#dataTable").append(data);
+        });
+      }
+    });
+};
 
-const dishCreate = () => {};
+const dishCreate = () => {
+  let name = document.getElementById("name");
+  let price = document.getElementById("price");
+  let categories = "";
+  for (let option of document.getElementById("category").options) {
+    if (option.selected) {
+      categories = categories + option.value + ",";
+    }
+  }
+  categories.slice(0, -1);
+  let delivery_type = document.getElementById("delivery_type");
+
+  // Add a new document in collection "orders"
+  firebase
+    .database()
+    .ref("dishes")
+    .push({
+      name: name.value,
+      price: price.value,
+      category: categories,
+      delivery_type: delivery_type.value,
+    })
+    .then(() => {
+      $("#alert-response")
+        .removeClass("alert-danger")
+        .addClass("alert-success")
+        .append(`Order Created Successfully`)
+        .css("display", "block");
+      $("button[type=submit]").addClass("disabled");
+      // See the UserRecord reference doc for the contents of userRecord.
+      console.log("Order Created Successfully");
+      setTimeout(function () {
+        location.replace(`dishes.html`);
+      }, 5000);
+    })
+    .catch((err) => {
+      console.log(`Error: ${err.message}`);
+      $("#alert-response")
+        .addClass("alert-danger")
+        .append(`Error: ${err.message}`)
+        .css("display", "block");
+      $("button[type=submit]").addClass("disabled");
+    });
+  setTimeout(function () {
+    $("#alert-response").css("display", "none").text("");
+    $("button[type=submit]").removeClass("disabled");
+  }, 5000);
+};
 
 const getCurrentUser = () => {
   // function getCurrentUser() {
