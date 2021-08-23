@@ -1,4 +1,6 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
-  $("#dataTable").DataTable();
+  if ($("#dataTable").length > 0) {
+    $("#dataTable").DataTable();
+  }
 });
